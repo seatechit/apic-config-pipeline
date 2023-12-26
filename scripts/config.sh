@@ -61,7 +61,6 @@ ADMIN_REALM="admin/default-idp-1"
 
 # Get the APIC CLI
 HTTP_CODE=`curl -s --write-out '%{http_code}' https://${APIC_ADMIN_URL}/client-downloads/toolkit-linux.tgz --insecure --output toolkit-linux.tgz`
-https://cpd-tools.apps.cp4i.seatechit.com.vn/integration/apis/tools/apic-cluster/client-downloads/toolkit-zlinux.tgz
 if [[ "${HTTP_CODE}" != "200" ]]
 then 
   echo "[ERROR][config.sh] - An error ocurred downloading the APIC toolkit to get the APIC CLI"
