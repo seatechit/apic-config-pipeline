@@ -15,7 +15,7 @@ fi
 
 # Make a configuration files directory
 cd ..
-mkdir config
+# mkdir config
 cd config
 
 # Get the needed URLs for the automation
