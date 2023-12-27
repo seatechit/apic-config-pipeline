@@ -111,7 +111,6 @@ try:
 
     response = api_calls.make_api_call(url, admin_bearer_token, 'post', data)
 
-    index = response.json().message[0].find('already exists with the same name')
     if response.status_code != 200 and response.status_code != 409:
           raise Exception("Return code for creating the Email Server isn't 201. It is " + str(response.status_code))
     elif response.status_code == 409:
