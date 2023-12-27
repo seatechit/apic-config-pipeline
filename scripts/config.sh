@@ -15,13 +15,13 @@ fi
 
 # Make a configuration files directory
 cd ..
-# mkdir config
+mkdir config
 cd config
 
 # Get the needed URLs for the automation
 CPD_URL=`oc get routes -n ${APIC_NAMESPACE} | grep cpd |  awk '{print $2}'`
 if [[ -z "${CPD_URL}" ]]; then echo "[ERROR][config.sh] - An error ocurred getting the CPD Admin url"; exit 1; fi
-APIC_ADMIN_URL=`oc get routes -n ${APIC_NAMESPACE} | grep platform |  awk '{print $2}'`
+APIC_ADMIN_URL=`oc get routes -n ${APIC_NAMESPACE} | grep platform-api |  awk '{print $2}'`
 if [[ -z "${APIC_ADMIN_URL}" ]]; then echo "[ERROR][config.sh] - An error ocurred getting the IBM API Connect Admin url"; exit 1; fi
 APIC_API_MANAGER_URL=`oc get routes -n ${APIC_NAMESPACE} | grep api-manager |  awk '{print $2}'`
 if [[ -z "${APIC_API_MANAGER_URL}" ]]; then echo "[ERROR][config.sh] - An error ocurred getting the IBM API Connect Management url"; exit 1; fi
@@ -84,14 +84,13 @@ echo "}" >> config.json
 ./apic-slim login --server ${APIC_ADMIN_URL} --username admin --password ''"${APIC_ADMIN_PASSWORD}"'' --realm ${ADMIN_REALM} --accept-license > /dev/null
 if [[ $? -ne 0 ]]; then echo "[ERROR][config.sh] - An error ocurred login into IBM API Connect using the APIC CLI"; exit 1; fi
 
-echo "listing folder"
-ls -ltr
+echo "${APIC_ADMIN_URL}"
 
 # Get the toolkit credentials
-./apic-slim cloud-settings:toolkit-credentials-list --server ${APIC_ADMIN_URL}  --format json --accept-license --output - > toolkit-creds.json
-echo "listing folder"
-ls -ltr
-cat toolkit-creds.json
+./apic-slim cloud-settings:toolkit-credentials-list --server ${APIC_ADMIN_URL} --format json > toolkit-creds.json
+# echo "listing folder"
+# ls -ltr
+# cat toolkit-creds.json
 
 # DEBUG information
 if [[ ! -z "${DEBUG}" ]]

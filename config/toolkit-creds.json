@@ -1,0 +1,13 @@
+{
+    "cloud_id": "2d3a5fd9-9a40-40e8-accc-d78fc098bc1a",
+    "toolkit": {
+        "endpoint": "https://cpd-tools.apps.cp4i.seatechit.com.vn/integration/apis/tools/apic-cluster/api",
+        "client_id": "02e7589f-3ed3-49de-9f01-9c7007658d19",
+        "client_secret": "079e6ae9-f41e-4a28-b6f8-3e291b97716c"
+    },
+    "consumer_toolkit": {
+        "endpoint": "https://cpd-tools.apps.cp4i.seatechit.com.vn/integration/apis/tools/apic-cluster/consumer-api",
+        "client_id": "657e0c07-32fb-43af-af75-6df5111d4c7d",
+        "client_secret": "7a61716f-7ee9-47db-a62f-7165ceead9d7"
+    }
+}
