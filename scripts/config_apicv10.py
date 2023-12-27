@@ -111,7 +111,7 @@ try:
 
     response = api_calls.make_api_call(url, admin_bearer_token, 'post', data)
 
-    index = response.message[0].find('already exists with the same name')
+    index = response.json().message[0].find('already exists with the same name')
     if response.status_code != 200 and index != -1:
           raise Exception("Return code for creating the Email Server isn't 201. It is " + str(response.status_code))
     elif response.status_code != 200 and index == -1:
@@ -152,7 +152,7 @@ try:
 
     response = api_calls.make_api_call(url, admin_bearer_token, 'put', data)
 
-    index = response.message.find('already exists')
+    index = response.json().message.find('already exists')
     if response.status_code != 200 and index != -1:
           raise Exception("Return code for Sender and Email Server configuration isn't 200. It is " + str(response.status_code))
 
@@ -249,7 +249,7 @@ try:
         print(info(6), json.dumps(data))
 
     response = api_calls.make_api_call(url, admin_bearer_token, 'post', data)
-    index = response.message.find('Please use a different endpoint')
+    index = response.json().message.find('Please use a different endpoint')
     if response.status_code != 201 and index != -1:
           raise Exception("Return code for registering the Default Gateway Service isn't 201. It is " + str(response.status_code))
     elif response.status_code != 201 and index == -1:
@@ -288,7 +288,7 @@ try:
         print(info(7), json.dumps(data))
 
     response = api_calls.make_api_call(url, admin_bearer_token, 'post', data)
-    index = response.message.find('Please use a different endpoint')
+    index = response.json().message.find('Please use a different endpoint')
     if response.status_code != 201 and index != -1:
           raise Exception("Return code for registering the Default Analytics Service isn't 201. It is " + str(response.status_code))
     elif response.status_code != 201 and index == -1:
@@ -325,7 +325,7 @@ try:
 
     response = api_calls.make_api_call(url, admin_bearer_token, 'patch', data)
 
-    index = response.message.find('exists')
+    index = response.json().message.find('exists')
     if response.status_code != 200 and index != -1:
           raise Exception("Return code for associating the Default Analytics Service with the Default Gateway Service isn't 200. It is " + str(response.status_code))
     
@@ -361,7 +361,7 @@ try:
 
     response = api_calls.make_api_call(url, admin_bearer_token, 'post', data)
 
-    index = response.message.find('Please use a different endpoint')
+    index = response.json().message.find('Please use a different endpoint')
     if response.status_code != 201 and index != -1:
           raise Exception("Return code for registering the Default Portal Service isn't 201. It is " + str(response.status_code))
 
