@@ -111,9 +111,17 @@ try:
 
     response = api_calls.make_api_call(url, admin_bearer_token, 'post', data)
 
-    if response.status_code != 201:
+    index = response.message.find('already exists with the same name')
+    if response.status_code != 201 and index != -1:
           raise Exception("Return code for creating the Email Server isn't 201. It is " + str(response.status_code))
-    email_server_url = response.json()['url']
+    elif response.status_code != 201 and index == -1:
+        # get email_server_url
+        response = api_calls.make_api_call(url, admin_bearer_token, 'get')      
+        if response.status_code == 200:
+            email_server_url = response.json()['url']
+    else:
+        email_server_url = response.json()['url']
+        
     if DEBUG:
         print(info(4) + "Email Server url: " + email_server_url)
 
@@ -144,7 +152,8 @@ try:
 
     response = api_calls.make_api_call(url, admin_bearer_token, 'put', data)
 
-    if response.status_code != 200:
+    index = response.message.find('already exists')
+    if response.status_code != 200 and index != -1:
           raise Exception("Return code for Sender and Email Server configuration isn't 200. It is " + str(response.status_code))
 
 #################################################
