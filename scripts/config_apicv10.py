@@ -336,8 +336,8 @@ try:
 
     response = api_calls.make_api_call(url, admin_bearer_token, 'patch', data)
 
-    index = response.json().message.find('exists')
-    if response.status_code != 200 and index != -1:
+    # index = response.json().message.find('exists')
+    if response.status_code != 200:
           raise Exception("Return code for associating the Default Analytics Service with the Default Gateway Service isn't 200. It is " + str(response.status_code))
     
 
