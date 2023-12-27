@@ -252,12 +252,13 @@ try:
     response = api_calls.make_api_call(url, admin_bearer_token, 'post', data)
     index = -2
     for message in response.json()['message']:
+        print(info(6), message)
         if message.find('Please use a different endpoint') == -1:
             found = True
             index = -1
-    if response.status_code != 201 and index != -1:
+    if response.status_code != 201 and not found:
           raise Exception("Return code for registering the Default Gateway Service isn't 201. It is " + str(response.status_code))
-    elif response.status_code != 201 and index == -1:
+    elif response.status_code != 201 and found:
         # get default gateway service id
         url = 'https://' + environment_config["APIC_ADMIN_URL"] + '/api/orgs/' + admin_org_id + '/availability-zones/availability-zone-default/gateway-services'
         response = api_calls.make_api_call(url, admin_bearer_token, 'get')      
@@ -293,7 +294,11 @@ try:
         print(info(7), json.dumps(data))
 
     response = api_calls.make_api_call(url, admin_bearer_token, 'post', data)
-    index = response.json().message.find('Please use a different endpoint')
+    index = -2
+    for message in response.json()['message']:
+        if message.find('Please use a different endpoint') == -1:
+            found = True
+            index = -1
     if response.status_code != 201 and index != -1:
           raise Exception("Return code for registering the Default Analytics Service isn't 201. It is " + str(response.status_code))
     elif response.status_code != 201 and index == -1:
