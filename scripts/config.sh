@@ -88,10 +88,10 @@ echo "listing folder"
 ls -ltr
 
 # Get the toolkit credentials
-./apic-slim cloud-settings:toolkit-credentials-list --server ${APIC_ADMIN_URL}  --format json --accept-license >> toolkit-creds.json
+./apic-slim cloud-settings:toolkit-credentials-list --server ${APIC_ADMIN_URL}  --format json --accept-license >> config.json
 echo "listing folder"
 ls -ltr
-cat toolkit-creds.json
+cat config.json
 
 # DEBUG information
 if [[ ! -z "${DEBUG}" ]]
