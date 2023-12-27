@@ -91,7 +91,7 @@ ls -ltr
 ./apic-slim cloud-settings:toolkit-credentials-list --server ${APIC_ADMIN_URL}  --format json >> toolkit-creds.json
 echo "listing folder"
 ls -ltr
-cat ./toolkit-creds.json
+cat config.json
 
 # DEBUG information
 if [[ ! -z "${DEBUG}" ]]
