@@ -154,8 +154,7 @@ try:
 
     response = api_calls.make_api_call(url, admin_bearer_token, 'put', data)
 
-    index = response.json().message.find('already exists')
-    if response.status_code != 200 and index != -1:
+    if response.status_code != 200:
           raise Exception("Return code for Sender and Email Server configuration isn't 200. It is " + str(response.status_code))
 
 #################################################
