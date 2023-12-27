@@ -240,12 +240,18 @@ try:
         print(info(6), json.dumps(data))
 
     response = api_calls.make_api_call(url, admin_bearer_token, 'post', data)
-
-    if response.status_code != 201:
+    index = response.message.find('Please use a different endpoint')
+    if response.status_code != 201 and index != -1:
           raise Exception("Return code for registering the Default Gateway Service isn't 201. It is " + str(response.status_code))
-
-    # This will be needed in the last step when we associate this Gateway Service to the Sandbox catalog
-    gateway_service_id = response.json()['id']
+    elif response.status_code != 201 and index == -1:
+        # get default gateway service id
+        url = 'https://' + environment_config["APIC_ADMIN_URL"] + '/api/orgs/' + admin_org_id + '/availability-zones/availability-zone-default/gateway-services'
+        response = api_calls.make_api_call(url, admin_bearer_token, 'get')      
+        if response.status_code == 200:
+            gateway_service_id = response.json()['results'][0]['id']
+    else:
+        # This will be needed in the last step when we associate this Gateway Service to the Sandbox catalog
+        gateway_service_id = response.json()['id']
     if DEBUG:
         print(info(6) + "Default Gateway Service ID: " + gateway_service_id)
 
@@ -273,11 +279,18 @@ try:
         print(info(7), json.dumps(data))
 
     response = api_calls.make_api_call(url, admin_bearer_token, 'post', data)
-
-    if response.status_code != 201:
+    index = response.message.find('Please use a different endpoint')
+    if response.status_code != 201 and index != -1:
           raise Exception("Return code for registering the Default Analytics Service isn't 201. It is " + str(response.status_code))
+    elif response.status_code != 201 and index == -1:
+        # get default analytics service id
+        url = 'https://' + environment_config["APIC_ADMIN_URL"] + '/api/orgs/' + admin_org_id + '/availability-zones/availability-zone-default/analytics-services'
+        response = api_calls.make_api_call(url, admin_bearer_token, 'get')      
+        if response.status_code == 200:
+            analytics_service_url = response.json()['results'][0]['url']
+    else:
+        analytics_service_url = response.json()['url']
 
-    analytics_service_url = response.json()['url']
     if DEBUG:
         print(info(6) + "Default Analytics Service url: " + analytics_service_url)
 
@@ -303,8 +316,10 @@ try:
 
     response = api_calls.make_api_call(url, admin_bearer_token, 'patch', data)
 
-    if response.status_code != 200:
+    index = response.message.find('exists')
+    if response.status_code != 200 and index != -1:
           raise Exception("Return code for associating the Default Analytics Service with the Default Gateway Service isn't 200. It is " + str(response.status_code))
+    
 
 ################################################
 # Step 9 - Register the Default Portal Service #
@@ -337,7 +352,8 @@ try:
 
     response = api_calls.make_api_call(url, admin_bearer_token, 'post', data)
 
-    if response.status_code != 201:
+    index = response.message.find('Please use a different endpoint')
+    if response.status_code != 201 and index != -1:
           raise Exception("Return code for registering the Default Portal Service isn't 201. It is " + str(response.status_code))
 
 ############################################
