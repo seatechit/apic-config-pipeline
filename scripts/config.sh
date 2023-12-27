@@ -88,8 +88,9 @@ echo "listing folder"
 ls -ltr
 
 # Get the toolkit credentials
-./apic-slim --debug cloud-settings:toolkit-credentials-list --server ${APIC_ADMIN_URL} --format json > toolkit-creds.json
+./apic-slim cloud-settings:toolkit-credentials-list --server ${APIC_ADMIN_URL}  --format json --output ./
 if [[ $? -ne 0 ]]; then echo "[ERROR][config.sh] - An error ocurred getting the IBM API Connect Toolkit Credentials using the APIC CLI"; exit 1; fi
+mv ToolkitCredentialsResponse.json toolkit-creds.json
 
 # DEBUG information
 if [[ ! -z "${DEBUG}" ]]
