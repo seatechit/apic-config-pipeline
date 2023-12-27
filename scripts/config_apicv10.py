@@ -117,7 +117,10 @@ try:
         # get email_server_url
         response = api_calls.make_api_call(url, admin_bearer_token, 'get')      
         if response.status_code == 200:
-            email_server_url = response.json()['url']
+            for email in response.json()['results']:
+                if email['title'] == "Default Email Server":
+                    found = True
+                    email_server_url = email['url']
     else:
         email_server_url = response.json()['url']
         
