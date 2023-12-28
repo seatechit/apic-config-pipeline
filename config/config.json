@@ -1,0 +1,11 @@
+{
+"APIC_ADMIN_URL":"apic-clust-db6305d6-platform-api-tools.apps.cp4i.seatechit.com.vn",
+"APIC_API_MANAGER_URL":"apic-clust-db6305d6-platform-api-tools.apps.cp4i.seatechit.com.vn",
+"APIC_GATEWAY_URL":"apic-cluster-gw-gateway-tools.apps.cp4i.seatechit.com.vn",
+"APIC_GATEWAY_MANAGER_URL":"apic-cluster-gw-gateway-manager-tools.apps.cp4i.seatechit.com.vn",
+"APIC_ANALYTICS_CONSOLE_URL":"apic-clust-9c45ee6e-ai-endpoint-tools.apps.cp4i.seatechit.com.vn",
+"APIC_PORTAL_DIRECTOR_URL":"apic-clust-7c2eab2d-portal-director-tools.apps.cp4i.seatechit.com.vn",
+"APIC_PORTAL_WEB_URL":"apic-clust-7c2eab2d-portal-web-tools.apps.cp4i.seatechit.com.vn",
+"APIC_PLATFORM_API_URL":"apic-clust-db6305d6-platform-api-tools.apps.cp4i.seatechit.com.vn",
+"APIC_ADMIN_PASSWORD":"e7[7xx_kpn:]]$CsrvwF,p>;"
+}
