@@ -436,8 +436,9 @@ try:
 	elif found:
 		# get user registry info
 		response = api_calls.make_api_call(url, admin_bearer_token, 'get')
-		owner_url = response.json()['url']
-  
+		for user in response.json()['results']:
+			if user['name'] == 'admin':
+				owner_url = response.json()['url']
 	
 	# owner_url = response.json()['url']
 	if DEBUG:
