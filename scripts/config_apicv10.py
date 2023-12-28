@@ -374,10 +374,14 @@ try:
         print(info(9), json.dumps(data))
 
     response = api_calls.make_api_call(url, admin_bearer_token, 'post', data)
-
-    index = response.json().message.find('Please use a different endpoint')
-    if response.status_code != 201 and index != -1:
-          raise Exception("Return code for registering the Default Portal Service isn't 201. It is " + str(response.status_code))
+    found = False
+    if response.status_code != 201:
+        for message in response.json()['message']:
+            if message.find('Please use a different endpoint') == -1:
+                found = True
+    if response.status_code != 201 and not found:
+          raise Exception("Return code for registering the Default Portal Service  isn't 201. It is " + str(response.status_code))
+    
 
 ############################################
 # Step 10 - Create a Provider Organization #
