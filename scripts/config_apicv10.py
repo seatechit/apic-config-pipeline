@@ -377,6 +377,7 @@ try:
     found = False
     if response.status_code != 201:
         for message in response.json()['message']:
+            print(info(9), 'message' + message)
             if message.find('Please use a different endpoint') == -1:
                 found = True
     if response.status_code != 201 and not found:
