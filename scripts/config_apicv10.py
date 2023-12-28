@@ -466,8 +466,13 @@ try:
 		print(info(10), json.dumps(data))
 
 	response = api_calls.make_api_call(url, admin_bearer_token, 'post', data)
-
+	found = False
 	if response.status_code != 201:
+		for message in response.json()['message']:
+			if 'already exists with the same name' in message:
+				found = True
+
+	if response.status_code != 201 and not found:
 		  raise Exception("Return code for creating the provider organization isn't 201. It is " + str(response.status_code))
 
 ###############################################################
