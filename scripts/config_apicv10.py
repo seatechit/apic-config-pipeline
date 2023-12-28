@@ -264,11 +264,14 @@ try:
         response = api_calls.make_api_call(url, admin_bearer_token, 'get')      
         if response.status_code == 200:
             gateway_service_id = response.json()['results'][0]['id']
+            gateway_service_name = response.json()['results'][0]['name']
     else:
         # This will be needed in the last step when we associate this Gateway Service to the Sandbox catalog
         gateway_service_id = response.json()['id']
+        gateway_service_name = response.json()['name']
     if DEBUG:
         print(info(6) + "Default Gateway Service ID: " + gateway_service_id)
+        print(info(6) + "Default Gateway Service Name: " + gateway_service_name)
 
 ###################################################
 # Step 7 - Register the Default Analytics Service #
@@ -322,7 +325,7 @@ try:
     print(info(8) + "# Step 8 - Associate Default Analytics Service with Default Gateway Service #")
     print(info(8) + "#############################################################################")
 
-    url = 'https://' + environment_config["APIC_ADMIN_URL"] + '/api/orgs/' + admin_org_id + '/availability-zones/availability-zone-default/gateway-services/default-gateway-service'
+    url = 'https://' + environment_config["APIC_ADMIN_URL"] + '/api/orgs/' + admin_org_id + '/availability-zones/availability-zone-default/gateway-services/' + gateway_service_name
     
     # Create the data object
     data = {}
