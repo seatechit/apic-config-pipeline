@@ -377,8 +377,8 @@ try:
     found = False
     if response.status_code != 201:
         for message in response.json()['message']:
-            print(info(9), 'message' + message)
-            if message.find('Please use a different endpoint') == -1:
+            if 'Please use a different endpoint' in message:
+                print(info(9), 'message: ' + message)
                 found = True
     if response.status_code != 201 and not found:
           raise Exception("Return code for registering the Default Portal Service  isn't 201. It is " + str(response.status_code))
