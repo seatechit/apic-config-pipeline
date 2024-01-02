@@ -47,7 +47,7 @@ try:
 	admin_bearer_token = api_calls.get_bearer_token(environment_config["APIC_ADMIN_URL"],
 													"admin",
 													environment_config["APIC_ADMIN_PASSWORD"],
-													"admin/default-idp-2",
+													"admin/default-idp-1",
 													toolkit_credentials["toolkit"]["client_id"],
 													toolkit_credentials["toolkit"]["client_secret"])
 	if DEBUG:
@@ -480,7 +480,7 @@ try:
 ###############################################################
 
 	print(info(11) + "###############################################################")
-	print(info(11) + "# Step 11 - Get the IBM API Connect Provider Adefault-idp-2PI Bearer Token #")
+	print(info(11) + "# Step 11 - Get the IBM API Connect Provider API Bearer Token #")
 	print(info(11) + "###############################################################")
 	
 	# Ideally, the username and password for getting the Bearer Token below would come from a sealed secret (that woul also be used
