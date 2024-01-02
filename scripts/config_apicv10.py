@@ -116,7 +116,7 @@ try:
 	elif response.status_code == 409:
 		# get email_server_url
 		response = api_calls.make_api_call(url, admin_bearer_token, 'get')      
-		if response.status_code == 201:
+		if response.status_code == 200:
 			for email in response.json()['results']:
 				if email['title'] == "Default Email Server":
 					found = True
