@@ -111,12 +111,12 @@ try:
 
 	response = api_calls.make_api_call(url, admin_bearer_token, 'post', data)
 
-	if response.status_code != 200 and response.status_code != 409:
+	if response.status_code != 201 and response.status_code != 409:
 		  raise Exception("Return code for creating the Email Server isn't 201. It is " + str(response.status_code))
 	elif response.status_code == 409:
 		# get email_server_url
 		response = api_calls.make_api_call(url, admin_bearer_token, 'get')      
-		if response.status_code == 200:
+		if response.status_code == 201:
 			for email in response.json()['results']:
 				if email['title'] == "Default Email Server":
 					found = True
