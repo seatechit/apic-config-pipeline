@@ -416,7 +416,7 @@ try:
 	data['email'] = os.environ["PROV_ORG_OWNER_EMAIL"]
 	data['first_name'] = os.environ["PROV_ORG_OWNER_FIRST_NAME"]
 	data['last_name'] = os.environ["PROV_ORG_OWNER_LAST_NAME"]
-	data['password'] = os.environ["PROV_ORG_OWNER_PASSWORD"]
+	# data['password'] = os.environ["PROV_ORG_OWNER_PASSWORD"]
 
 	if DEBUG:
 		print(info(10) + "This is the data object:")
@@ -443,6 +443,16 @@ try:
 	# owner_url = response.json()['url']
 	if DEBUG:
 		print(info(10) + "Provider Organization Owner url: " + owner_url)
+
+
+	# Change password
+	print(info(10) + "Change password:")	
+	url = provider_user_registry_default_url + '/users/' + os.environ["PROV_ORG_OWNER_USERNAME"] + "/reset-password"
+	data = {}
+	data['password'] = os.environ["PROV_ORG_OWNER_PASSWORD"]
+	response = api_calls.make_api_call(url, admin_bearer_token, 'post', data)
+	if response.status_code != 200:
+		raise Exception("Return code for change password owner user isn't 200. It is " + str(response.status_code))
 	
 	# Finally, we can create the Provider Organization with the previous owner
 
