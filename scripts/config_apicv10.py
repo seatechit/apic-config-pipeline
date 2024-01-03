@@ -500,10 +500,16 @@ try:
 	# Ideally, the username and password for getting the Bearer Token below would come from a sealed secret (that woul also be used
 	# in the previous step 10 when registering the new user for the provider organization owner)
 	# Using defaults for now.
-	admin_bearer_token = api_calls.get_bearer_token(environment_config["APIC_API_MANAGER_URL"],
-													os.environ["PROV_ORG_OWNER_USERNAME"],
-													os.environ["PROV_ORG_OWNER_PASSWORD"],
-													"provider/default-idp-2",
+	# admin_bearer_token = api_calls.get_bearer_token(environment_config["APIC_API_MANAGER_URL"],
+	# 												os.environ["PROV_ORG_OWNER_USERNAME"],
+	# 												os.environ["PROV_ORG_OWNER_PASSWORD"],
+	# 												"provider/default-idp-2",
+	# 												toolkit_credentials["toolkit"]["client_id"],
+	# 												toolkit_credentials["toolkit"]["client_secret"])
+	admin_bearer_token = api_calls.get_bearer_token(environment_config["APIC_ADMIN_URL"],
+													"admin",
+													environment_config["APIC_ADMIN_PASSWORD"],
+													"admin/default-idp-1",
 													toolkit_credentials["toolkit"]["client_id"],
 													toolkit_credentials["toolkit"]["client_secret"])
 	if DEBUG:
