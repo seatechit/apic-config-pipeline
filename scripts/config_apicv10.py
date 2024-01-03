@@ -418,7 +418,7 @@ try:
 	# Then, we need to register the user that will be the Provider Organization owner
 
 	url = provider_user_registry_default_url + '/users'
-
+	owner_url = provider_user_registry_default_url
 	# Create the data object
 	# Ideally this should be loaded from a sealed secret.
 	# Using defaults for now.
