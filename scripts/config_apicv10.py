@@ -440,7 +440,7 @@ try:
 			# get user registry info
 			response = api_calls.make_api_call(url, admin_bearer_token, 'get')
 			for user in response.json()['results']:
-				if user['name'] == 'admin':
+				if user['name'] == 'apicadmin':
 					owner_url = user['url']
 					break
 	
@@ -500,18 +500,18 @@ try:
 	# Ideally, the username and password for getting the Bearer Token below would come from a sealed secret (that woul also be used
 	# in the previous step 10 when registering the new user for the provider organization owner)
 	# Using defaults for now.
-	# admin_bearer_token = api_calls.get_bearer_token(environment_config["APIC_API_MANAGER_URL"],
-	# 												os.environ["PROV_ORG_OWNER_USERNAME"],
-	# 												os.environ["PROV_ORG_OWNER_PASSWORD"],
-	# 												"provider/default-idp-2",
-	# 												toolkit_credentials["toolkit"]["client_id"],
-	# 												toolkit_credentials["toolkit"]["client_secret"])
-	admin_bearer_token = api_calls.get_bearer_token(environment_config["APIC_ADMIN_URL"],
-													"admin",
-													environment_config["APIC_ADMIN_PASSWORD"],
-													"admin/default-idp-1",
+	admin_bearer_token = api_calls.get_bearer_token(environment_config["APIC_API_MANAGER_URL"],
+													os.environ["PROV_ORG_OWNER_USERNAME"],
+													os.environ["PROV_ORG_OWNER_PASSWORD"],
+													"provider/default-idp-2",
 													toolkit_credentials["toolkit"]["client_id"],
 													toolkit_credentials["toolkit"]["client_secret"])
+	# admin_bearer_token = api_calls.get_bearer_token(environment_config["APIC_ADMIN_URL"],
+	# 												"admin",
+	# 												environment_config["APIC_ADMIN_PASSWORD"],
+	# 												"admin/default-idp-1",
+	# 												toolkit_credentials["toolkit"]["client_id"],
+	# 												toolkit_credentials["toolkit"]["client_secret"])
 	if DEBUG:
 		print(info(11) + "This is the Bearer Token to work against the IBM API Connect API Management endpoints")
 		print(info(11) + "-------------------------------------------------------------------------------------")
@@ -536,7 +536,7 @@ try:
 	if response.status_code != 200:
 		  raise Exception("Return code for getting the Provider Org ID isn't 200. It is " + str(response.status_code))
 	for org in response.json()['results']:
-		if org['org_type'] == "provider":
+		if org['org_type'] == "admin":
 			found = True
 			provider_org_id = org['id']
 	if not found:
