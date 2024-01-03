@@ -536,7 +536,7 @@ try:
 	if response.status_code != 200:
 		  raise Exception("Return code for getting the Provider Org ID isn't 200. It is " + str(response.status_code))
 	for org in response.json()['results']:
-		if org['org_type'] == "admin":
+		if org['org_type'] == "provider":
 			found = True
 			provider_org_id = org['id']
 	if not found:
