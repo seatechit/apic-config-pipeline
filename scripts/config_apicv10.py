@@ -400,49 +400,58 @@ try:
 	if response.status_code != 200:
 		  raise Exception("Return code for retrieving the user registries isn't 200. It is " + str(response.status_code))
 	
+	# provider_user_registry_default_url=""
 	for userreg in response.json()['provider_user_registry_urls']:
-		provider_user_registry_default_url = userreg
-		# provider_user_registry_default_url = response.json()['provider_user_registry_default_url']
-		if DEBUG:
-			print(info(10) + "Default Provider User Registry url: " + provider_user_registry_default_url)
+		# get provider user registry api manager
+		response = api_calls.make_api_call(userreg, admin_bearer_token, 'get')
 
-		# Then, we need to register the user that will be the Provider Organization owner
+		if response.status_code == 200:
+			if "API Manager Local User Registry" in response.json()['title']:
+				provider_user_registry_default_url = userreg
+				break
 
-		url = provider_user_registry_default_url + '/users'
+		
+	# provider_user_registry_default_url = response.json()['provider_user_registry_default_url']
+	if DEBUG:
+		print(info(10) + "Default Provider User Registry url: " + provider_user_registry_default_url)
 
-		# Create the data object
-		# Ideally this should be loaded from a sealed secret.
-		# Using defaults for now.
-		data = {}
-		data['username'] = os.environ["PROV_ORG_OWNER_USERNAME"]
-		data['email'] = os.environ["PROV_ORG_OWNER_EMAIL"]
-		data['first_name'] = os.environ["PROV_ORG_OWNER_FIRST_NAME"]
-		data['last_name'] = os.environ["PROV_ORG_OWNER_LAST_NAME"]
-		data['password'] = os.environ["PROV_ORG_OWNER_PASSWORD"]
+	# Then, we need to register the user that will be the Provider Organization owner
 
-		if DEBUG:
-			print(info(10) + "This is the data object:")
-			print(info(10), data)
-			print(info(10) + "This is the JSON dump:")
-			print(info(10), json.dumps(data))
+	url = provider_user_registry_default_url + '/users'
 
-		response = api_calls.make_api_call(url, admin_bearer_token, 'post', data)
-		found = False
-		if response.status_code != 201:
-			for message in response.json()['message']:
-				if 'already exists' in message:
-					found = True
+	# Create the data object
+	# Ideally this should be loaded from a sealed secret.
+	# Using defaults for now.
+	data = {}
+	data['username'] = os.environ["PROV_ORG_OWNER_USERNAME"]
+	data['email'] = os.environ["PROV_ORG_OWNER_EMAIL"]
+	data['first_name'] = os.environ["PROV_ORG_OWNER_FIRST_NAME"]
+	data['last_name'] = os.environ["PROV_ORG_OWNER_LAST_NAME"]
+	data['password'] = os.environ["PROV_ORG_OWNER_PASSWORD"]
 
-		if response.status_code != 201 and not found:
-			# raise Exception("Return code for registering the provider organization owner user isn't 201. It is " + str(response.status_code))
-			continue
-		elif found:
-			# get user registry info
-			response = api_calls.make_api_call(url, admin_bearer_token, 'get')
-			for user in response.json()['results']:
-				if user['name'] == 'apicadmin':
-					owner_url = user['url']
-					break
+	if DEBUG:
+		print(info(10) + "This is the data object:")
+		print(info(10), data)
+		print(info(10) + "This is the JSON dump:")
+		print(info(10), json.dumps(data))
+
+	response = api_calls.make_api_call(url, admin_bearer_token, 'post', data)
+	found = False
+	if response.status_code != 201:
+		for message in response.json()['message']:
+			if 'already exists' in message:
+				found = True
+
+	if response.status_code != 201 and not found:
+		raise Exception("Return code for registering the provider organization owner user isn't 201. It is " + str(response.status_code))
+		# continue
+	elif found:
+		# get user registry info
+		response = api_calls.make_api_call(url, admin_bearer_token, 'get')
+		for user in response.json()['results']:
+			if user['name'] == 'apicadmin':
+				owner_url = user['url']
+				# break
 	
 	# owner_url = response.json()['url']
 	if DEBUG:
