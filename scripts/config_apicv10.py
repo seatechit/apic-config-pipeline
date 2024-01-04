@@ -443,7 +443,8 @@ try:
 		for message in response.json()['message']:
 			if 'already exists' in message:
 				found = True
-	elif response.status_code != 201 and not found:
+    
+	if response.status_code != 201 and not found:
 		raise Exception("Return code for registering the provider organization owner user isn't 201. It is " + str(response.status_code))
 		# continue
 	elif found:
